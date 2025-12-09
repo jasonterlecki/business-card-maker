@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   PawPrint,
   HeartHandshake,
@@ -985,7 +985,7 @@ let _htmlToImage: any = null;
 
 async function ensureHtmlToImage() {
   if (_htmlToImage) return _htmlToImage;
-  const mod = await import("https://esm.sh/html-to-image@1.11.11");
+  const mod = await import("html-to-image");
   _htmlToImage = mod;
   return _htmlToImage;
 }
@@ -1062,7 +1062,7 @@ function runSelfTests() {
     console.assert(THEMES.some((t) => t.key === "saveafox"), "Theme saveafox present");
     console.assert(typeof exportAsHtml === "function", "exportAsHtml exists");
     console.assert((DEFAULT_FORM.roles || []).length >= 3, "Default roles >= 3");
-    const Fallback = (ICON_LIBRARY.find((i) => i.key === "nope") as any)?.Comp || PawPrint;
+    const Fallback = (ICON_LIBRARY.find(() => false) as any)?.Comp || PawPrint;
     console.assert(typeof Fallback === "function", "Icon fallback works");
     const htmlTest = buildCardsHtml({ ...DEFAULT_FORM, backTagline: "" });
     console.assert(!htmlTest.includes("Tagline:"), "Back tagline line should be hidden when empty");
@@ -1096,4 +1096,3 @@ export default function App() {
     />
   );
 }
-
